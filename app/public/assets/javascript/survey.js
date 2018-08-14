@@ -23,6 +23,11 @@ $('#sendAnswers').on('click', function(event) {
         function(data) {
 
             console.log(data);
+            $('match-photo').attr('src', data.photo);
+            $('match-name').text(data.name);
+
+            $('#myModal').modal('show');
+
           
         });
     });
