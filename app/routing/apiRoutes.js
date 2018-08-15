@@ -21,7 +21,7 @@ module.exports = function(app) {
         var matchScore = 100;
         
 
-        console.log(friends);
+        //console.log(friends);
         
         for(var i=0; i<friends.length; i++) {
 
@@ -51,7 +51,7 @@ module.exports = function(app) {
 
         var finalMatch = friends[match];
 
-        console.log(finalMatch);
+        //console.log(finalMatch);
 
         res.json(finalMatch);
     });

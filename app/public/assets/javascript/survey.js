@@ -1,10 +1,13 @@
 var name;
 var photo;
 var answers = [];
+var valid = false;
 
 $('#sendAnswers').on('click', function(event) {
     
     event.preventDefault();
+
+
 
     name = $('#name').val().trim();
     photo = $('#photo').val().trim();
@@ -13,26 +16,67 @@ $('#sendAnswers').on('click', function(event) {
 
         var id = '#' + i.toString();
 
-        answers[i] = $(id).val().trim();
+        answers[i] = $(id).val();
+        console.log(answers[i]);
         answers[i] = parseInt(answers[i]);
     }
 
-    var newUser = new userConstructor(name, photo, answers);
+    validateForm();
 
-    $.post("/api/friends", newUser,
-        function(data) {
+    if(valid == true) {
 
-            console.log(data);
-            $('match-photo').attr('src', data.photo);
-            $('match-name').text(data.name);
+        var newUser = new userConstructor(name, photo, answers);
 
-            $('#myModal').modal('show');
+        console.log(newUser);
 
-          
-        });
-    });
+        $.post("/api/friends", newUser,
+            function(data) {
+
+                console.log(data);
+                $('#match-photo').attr('src', data.photo);
+                $('#match-name').text(data.name);
+
+                $('#myModal').modal('show');
+
+            
+            });
+    }else{
+        alert('Please Complete All Questions.');
+    }
+});
  
     
+function validateForm() {
+
+       valid = true;
+    console.log(answers);
+
+    if(name == ''){
+        valid = false;
+    }
+
+    if(photo == '') {
+        valid = false
+    }
+
+    
+    if(answers.length > 0){
+        for(var i=0; i<answers.length;i++){
+        
+            console.log('hello');
+
+            if(isNaN(answers[i] == true)){
+                valid = false;
+                
+            }
+        }
+    }else{
+        valid = false;
+    }
+
+    console.log(valid);
+}
+
 
 function userConstructor(name, photo, answers) {
 
